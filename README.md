@@ -26,6 +26,7 @@ $ npm start
 - [ ] Be able to have an add to cart link in Slack to be able to check item out.
 - [ ] Better documentation.
 - [ ] Proxy Support.
+- [ ] Add some colors using Chalk. 
 
 
 
