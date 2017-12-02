@@ -25,7 +25,6 @@ $ npm start
 
 ## To Do List
 - [X] Add Discord and Slack functionality for notifications.
-- [ ] Be able to have an add to cart link in Slack to be able to check item out.
 - [ ] Better documentation.
 - [X] Proxy Support.
 
