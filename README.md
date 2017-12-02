@@ -24,11 +24,10 @@ $ npm start
 ```
 
 ## To Do List
-- [ ] Add Twitter and Slack functionality for notifications.
-- [ ] Configuration file for user to set refresh times, slack and twitter information. 
+- [X] Add Discord and Slack functionality for notifications.
 - [ ] Be able to have an add to cart link in Slack to be able to check item out.
 - [ ] Better documentation.
-- [ ] Proxy Support.
+- [X] Proxy Support.
 
 
 
