@@ -26,8 +26,11 @@ $ node supreme.js
 - [X] Proxy Support.
 
 
+Information regarding Slack webhooks and how they work:
+https://api.slack.com/incoming-webhooks
 
-
+Information regarding Discord webhooks and how they work:
+https://discordapp.com/developers/docs/resources/webhook
 
 ## Who
 
