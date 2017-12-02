@@ -1,9 +1,6 @@
 # SupremeRestocks
 Script that monitors supremenewyork for items that have restocked.
 
-*RIGHT NOW ONLY SUPPORTS SLACK INTEGRATION*
-*THIS IS A MOSTLY UNTESTED METHOD OF VIEWING RESTOCKS*
-
 ## Installation
 
 SupremeRestocks requires [Node.js](http://nodejs.org/).
@@ -20,7 +17,7 @@ $ npm install
 Run After Setup:
 
 ```sh
-$ npm start
+$ node supreme.js
 ```
 
 ## To Do List
