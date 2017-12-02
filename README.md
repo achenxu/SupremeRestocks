@@ -32,6 +32,10 @@ https://api.slack.com/incoming-webhooks
 Information regarding Discord webhooks and how they work:
 https://discordapp.com/developers/docs/resources/webhook
 
+
+For reference, I have about 100 proxies and a 30 second refresh delay. Runs fine with no problems.
+It is your choice to decide on a refresh delay.
+
 ## Who
 
 Written by Alexander Stevens.
