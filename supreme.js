@@ -1,4 +1,4 @@
-//v2 soon come
+var Twitter = require('twitter');
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 const _ = require('underscore');
@@ -28,9 +28,23 @@ var refreshDelay = 30000//check every 30 seconds
 //discord.hookId = ''; 
 //discord.hookToken = '';
 
-//Uncomment if you need slack or discord output
+//uncomment if you need twitter
+// var client = new Twitter({
+//   consumer_key: '',
+//   consumer_secret: '',
+//   access_token_key: '',
+//   access_token_secret: ''
+// });
+
+//Uncomment if you need slack or discord or twitter output
 //slack.send('Now monitoring for restocks.')
 //discord.sendMessage('Now monitoring for restocks.');
+// client.post('statuses/update', {status: 'Now monitoring for restocks.'}, function(error, tweet, response) {
+//   if (!error) {
+//     console.log(tweet);
+//   }
+// });
+
 console.log('Now monitoring for restocks.');
 
 function initialize(){
@@ -83,6 +97,7 @@ function scrape(arr) {
               console.log(restockedItems)
               //postToSlack(restockedItems)
               //postToDiscord(restockedItems)
+              //postToTwitter(restockedItems)
               originalSoldOutItems = newSoldOutItems; //reset the variable
           }
 
@@ -130,6 +145,13 @@ function postToSlack(restockedItems){
 function postToDiscord(restockedItems){
   for (let i = 0; i < restockedItems.length; i++) {
     discord.sendMessage('http://www.supremenewyork.com' + restockedItems[i]);
+  }
+}
+
+function postToTwitter(restockedItems){
+   for (let i = 0; i < restockedItems.length; i++) {
+      client.post('statuses/update', {status: 'http://www.supremenewyork.com' + restockedItems[i]}, function(error, tweet, response) {
+    });
   }
 }
 
