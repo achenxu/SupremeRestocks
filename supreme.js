@@ -25,7 +25,7 @@ var refreshDelay = 30000//check every 30 seconds
 // })
 
 //uncomment if you need discord
-//discord.hookId = ''; 
+//discord.hookId = '';
 //discord.hookToken = '';
 
 //uncomment if you need twitter
@@ -144,7 +144,43 @@ function postToSlack(restockedItems){
 
 function postToDiscord(restockedItems){
   for (let i = 0; i < restockedItems.length; i++) {
-    discord.sendMessage('http://www.supremenewyork.com' + restockedItems[i]);
+    request({
+        url: 'http://www.supremenewyork.com' + restockedItems[i],
+        headers: generateRandomUserAgent(),
+        timeout:60000,
+        proxy: formatProxy(proxyList[Math.floor(Math.random() * proxyList.length)])
+    }, function(error, response, html) {
+
+        var itemHTML = cheerio.load(html);
+
+        itemHTML('#container').each(function(i, elm) {
+            discord.sendMessage({
+              embed: {
+                color: 16723502,
+                thumbnail: {url: 'https:' + elm.children[1].children[0].children[0].attribs['src']},
+                title: 'SUPREME RESTOCK',
+                fields: [
+                  {
+                    name: 'Item:',
+                    value: itemHTML('.protect').not('.style').text()
+                  },
+                  {
+                    name: 'Color:',
+                    value: itemHTML('p, .style').eq(0).text()
+                  },
+                  {
+                    name: 'Price:',
+                    value: itemHTML('.price').text()
+                  },
+                  {
+                    name: 'Link:',
+                    value: 'http://www.supremenewyork.com' + restockedItems[i]
+                  }
+                ]
+              }
+            })//end of discord embed
+        })
+    })//end of request call
   }
 }
 
