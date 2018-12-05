@@ -25,8 +25,8 @@ var refreshDelay = 30000//check every 30 seconds
 // })
 
 //uncomment if you need discord
-//discord.hookId = ''; 
-//discord.hookToken = '';
+discord.hookId = '517610775116906498';
+discord.hookToken = 'C01Dh6G36Yho8A0_fB6fa_qYxwj0k5HItwJNVfrdXc8deOrYFNCMYH9eAjx8DYEfW368';
 
 //uncomment if you need twitter
 // var client = new Twitter({
@@ -38,7 +38,7 @@ var refreshDelay = 30000//check every 30 seconds
 
 //Uncomment if you need slack or discord or twitter output
 //slack.send('Now monitoring for restocks.')
-//discord.sendMessage('Now monitoring for restocks.');
+discord.sendMessage('Now monitoring for restocks.');
 // client.post('statuses/update', {status: 'Now monitoring for restocks.'}, function(error, tweet, response) {
 //   if (!error) {
 //     console.log(tweet);
@@ -96,7 +96,7 @@ function scrape(arr) {
               var restockedItems = findArrayDifferences(originalSoldOutItems, newSoldOutItems);
               console.log(restockedItems)
               //postToSlack(restockedItems)
-              //postToDiscord(restockedItems)
+              postToDiscord(restockedItems)
               //postToTwitter(restockedItems)
               originalSoldOutItems = newSoldOutItems; //reset the variable
           }
@@ -144,7 +144,43 @@ function postToSlack(restockedItems){
 
 function postToDiscord(restockedItems){
   for (let i = 0; i < restockedItems.length; i++) {
-    discord.sendMessage('http://www.supremenewyork.com' + restockedItems[i]);
+    request({
+        url: 'http://www.supremenewyork.com' + restockedItems[i],
+        headers: generateRandomUserAgent(),
+        timeout:60000,
+        proxy: formatProxy(proxyList[Math.floor(Math.random() * proxyList.length)])
+    }, function(error, response, html) {
+
+        var itemHTML = cheerio.load(html);
+
+        itemHTML('#container').each(function(i, elm) {
+            discord.sendMessage({
+              embed: {
+                color: 16723502,
+                thumbnail: {url: 'https:' + elm.children[1].children[0].children[0].attribs['src']},
+                title: 'SUPREME RESTOCK',
+                fields: [
+                  {
+                    name: 'Item:',
+                    value: itemHTML('.protect').not('.style').text()
+                  },
+                  {
+                    name: 'Color:',
+                    value: itemHTML('p, .style').eq(0).text()
+                  },
+                  {
+                    name: 'Price:',
+                    value: itemHTML('.price').text()
+                  },
+                  {
+                    name: 'Link:',
+                    value: 'http://www.supremenewyork.com' + restockedItems[i]
+                  }
+                ]
+              }
+            })//end of discord embed
+        })
+    })//end of request call
   }
 }
 
