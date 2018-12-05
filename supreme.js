@@ -25,8 +25,8 @@ var refreshDelay = 30000//check every 30 seconds
 // })
 
 //uncomment if you need discord
-//discord.hookId = '';
-//discord.hookToken = '';
+discord.hookId = '517610775116906498';
+discord.hookToken = 'C01Dh6G36Yho8A0_fB6fa_qYxwj0k5HItwJNVfrdXc8deOrYFNCMYH9eAjx8DYEfW368';
 
 //uncomment if you need twitter
 // var client = new Twitter({
@@ -38,7 +38,7 @@ var refreshDelay = 30000//check every 30 seconds
 
 //Uncomment if you need slack or discord or twitter output
 //slack.send('Now monitoring for restocks.')
-//discord.sendMessage('Now monitoring for restocks.');
+discord.sendMessage('Now monitoring for restocks.');
 // client.post('statuses/update', {status: 'Now monitoring for restocks.'}, function(error, tweet, response) {
 //   if (!error) {
 //     console.log(tweet);
@@ -96,7 +96,7 @@ function scrape(arr) {
               var restockedItems = findArrayDifferences(originalSoldOutItems, newSoldOutItems);
               console.log(restockedItems)
               //postToSlack(restockedItems)
-              //postToDiscord(restockedItems)
+              postToDiscord(restockedItems)
               //postToTwitter(restockedItems)
               originalSoldOutItems = newSoldOutItems; //reset the variable
           }
