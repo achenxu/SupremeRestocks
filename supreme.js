@@ -25,7 +25,7 @@ var refreshDelay = 30000//check every 30 seconds
 // })
 
 //uncomment if you need discord
-const hook = new discord.WebhookClient("517610775116906498", "C01Dh6G36Yho8A0_fB6fa_qYxwj0k5HItwJNVfrdXc8deOrYFNCMYH9eAjx8DYEfW368");
+const hook = new discord.WebhookClient("your id", "your token");
 
 
 //uncomment if you need twitter
