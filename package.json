@@ -19,13 +19,12 @@
     "async": "^2.1.4",
     "cheerio": "^1.0.0-rc.2",
     "cheerio-req": "^1.2.0",
-    "discord-bot-webhook": "^1.0.4",
+    "discord.js": "^11.4.2",
     "fs": "0.0.1-security",
     "request": "^2.79.0",
     "request-promise": "^4.2.2",
     "slack-webhook": "^1.0.0",
     "twitter": "^1.7.1",
-    "underscore": "^1.9.1",
-    "webhook-discord": "^2.0.6"
+    "underscore": "^1.9.1"
   }
 }
