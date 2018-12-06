@@ -25,7 +25,7 @@ var refreshDelay = 30000//check every 30 seconds
 // })
 
 //uncomment if you need discord
-const hook = new discord.WebhookClient("your id", "your token");
+//const hook = new discord.WebhookClient("your id", "your token");
 
 
 //uncomment if you need twitter
@@ -38,7 +38,7 @@ const hook = new discord.WebhookClient("your id", "your token");
 
 //Uncomment if you need slack or discord or twitter output
 //slack.send('Now monitoring for restocks.')
-hook.send('Now monitoring for restocks.');
+//hook.send('Now monitoring for restocks.');
 // client.post('statuses/update', {status: 'Now monitoring for restocks.'}, function(error, tweet, response) {
 //   if (!error) {
 //     console.log(tweet);
@@ -96,7 +96,7 @@ function scrape(arr) {
               var restockedItems = findArrayDifferences(originalSoldOutItems, newSoldOutItems);
               console.log(restockedItems)
               //postToSlack(restockedItems)
-              postToDiscord(restockedItems)
+              //postToDiscord(restockedItems)
               //postToTwitter(restockedItems)
               originalSoldOutItems = newSoldOutItems; //reset the variable
           }
