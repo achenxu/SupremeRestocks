@@ -75,7 +75,7 @@ function scrape(arr) {
   }, function(error, response, html) {
 
       if (response && response.statusCode != 200) {
-          console.log('Cannot make the Request');
+          console.log('Cannot make the Request, response = ' + response.statusCode);
           return null;
       }
 
