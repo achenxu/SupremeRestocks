@@ -12,7 +12,9 @@ var newSoldOutItems = []
 const proxyList = [];
 const userAgentList = [];
 var restockCycles = 0;//do not change
-var refreshDelay = 30000//check every 30 seconds
+var refreshDelay = 10000//check every 5 mins
+
+var thisProxy = null;
 
 //uncomment for slack configuration
 // const slackWebhookURL = ''
@@ -25,7 +27,7 @@ var refreshDelay = 30000//check every 30 seconds
 // })
 
 //uncomment if you need discord
-//const hook = new discord.WebhookClient("your id", "your token");
+const hook = new discord.WebhookClient("522549535029985282", "qAxPDHiZESquoj0F7YqaHAuu7QYDBQexPbORsgHUP2SVo5APP6_URDTPCvxfY7g3KjZ4");
 
 
 //uncomment if you need twitter
@@ -38,7 +40,7 @@ var refreshDelay = 30000//check every 30 seconds
 
 //Uncomment if you need slack or discord or twitter output
 //slack.send('Now monitoring for restocks.')
-//hook.send('Now monitoring for restocks.');
+hook.send('Now monitoring for restocks.');
 // client.post('statuses/update', {status: 'Now monitoring for restocks.'}, function(error, tweet, response) {
 //   if (!error) {
 //     console.log(tweet);
@@ -67,22 +69,28 @@ function initialize(){
 
 function scrape(arr) {
 
+  //set thisProxy equal to the proxy we'll be using for this request and the discord one
+  thisProxy = formatProxy(proxyList[Math.floor(Math.random() * proxyList.length)]);
+
   request({
       url: 'https://www.supremenewyork.com/shop/all',
       headers: generateRandomUserAgent(),
-      timeout:60000,
-      proxy: formatProxy(proxyList[Math.floor(Math.random() * proxyList.length)])
+      timeout:20000,
+      proxy: thisProxy
   }, function(error, response, html) {
 
       if (response && response.statusCode != 200) {
           console.log('Cannot make the Request, response = ' + response.statusCode);
-          return null;
+          scrape(newSoldOutItems);
+          return;
       }
 
       if(!html){
-        console.log('Did not get response.');
-        return null;
+        console.log('Did not get response, this is most likely a bad proxy. Trying again...');
+        scrape(newSoldOutItems);
+        return;
       }
+
       var $ = cheerio.load(html);
 
       $('.inner-article').each(function(i, elm) {
@@ -91,12 +99,13 @@ function scrape(arr) {
           }
       }); //end of loop jQuery function
       if (restockCycles != 0) {
+        console.log(newSoldOutItems.length, originalSoldOutItems.length);
           if (newSoldOutItems.length < originalSoldOutItems.length) {
               console.log('RESTOCK OCCURED!!!');
               var restockedItems = findArrayDifferences(originalSoldOutItems, newSoldOutItems);
               console.log(restockedItems)
               //postToSlack(restockedItems)
-              //postToDiscord(restockedItems)
+              postToDiscord(restockedItems)
               //postToTwitter(restockedItems)
               originalSoldOutItems = newSoldOutItems; //reset the variable
           }
@@ -147,8 +156,8 @@ function postToDiscord(restockedItems){
     request({
         url: 'http://www.supremenewyork.com' + restockedItems[i],
         headers: generateRandomUserAgent(),
-        timeout:60000,
-        proxy: formatProxy(proxyList[Math.floor(Math.random() * proxyList.length)])
+        timeout:20000,
+        proxy: thisProxy
     }, function(error, response, html) {
 
         var itemHTML = cheerio.load(html);
